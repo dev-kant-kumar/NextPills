@@ -25,10 +25,11 @@ const Home = () => {
   const [currentScreen, setCurrentScreen] = useState(0);
 
   const handleNextScreen = () => {
-    if (currentScreen > 2) {
-      return router.replace("/(tabs)/today.jsx");
+    if (currentScreen >= onboardingScreen.length - 1) {
+      return router.replace("/(tabs)/today");
     }
-    setCurrentScreen((prev) => prev < onboardingScreen.length && prev + 1);
+
+    setCurrentScreen((prev) => prev + 1);
   };
 
   const handleSkipScreen = () => {
@@ -41,18 +42,20 @@ const Home = () => {
         contentContainerStyle={{ flex: 1, justifyContent: "space-between" }}
       >
         <View style={styles.screenContainer}>
-          <View>
-            {/* icon container */}
-            <View style={styles.iconContainer}>
-              {onboardingScreen[currentScreen].icon}
+          {currentScreen <= onboardingScreen.length - 1 && (
+            <View>
+              {/* icon container */}
+              <View style={styles.iconContainer}>
+                {onboardingScreen[currentScreen].icon}
+              </View>
+              <Text style={styles.title}>
+                {onboardingScreen[currentScreen].title}
+              </Text>
+              <Text style={styles.subTitle}>
+                {onboardingScreen[currentScreen].subTitle}
+              </Text>
             </View>
-            <Text style={styles.title}>
-              {onboardingScreen[currentScreen].title}
-            </Text>
-            <Text style={styles.subTitle}>
-              {onboardingScreen[currentScreen].subTitle}
-            </Text>
-          </View>
+          )}
         </View>
 
         <View style={styles.btnContainer}>
