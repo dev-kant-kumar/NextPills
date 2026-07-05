@@ -1,16 +1,19 @@
 import { Stack } from "expo-router";
-import "../global.css"
-
+import { Provider } from "react-redux";
+import "../global.css";
+import Store from "../store/index";
 
 const RootLayout = () => {
   return (
-    <Stack>
-      <Stack.Screen
-        name="index"
-        options={{ title: "Home", headerShown: false }}
-      />
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-    </Stack>
+    <Provider store={Store}>
+      <Stack>
+        <Stack.Screen
+          name="index"
+          options={{ title: "Home", headerShown: false }}
+        />
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      </Stack>
+    </Provider>
   );
 };
 

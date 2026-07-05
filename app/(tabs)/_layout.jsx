@@ -45,7 +45,11 @@ const Mainlayout = () => {
         name="addmedicine"
         options={{
           title: "Add Medicine",
+          headerShown: false,
           tabBarButton: AddButton,
+          tabBarStyle: {
+            display: "none",
+          },
         }}
         listeners={{
           tabPress: (e) => {
@@ -81,6 +85,10 @@ const Mainlayout = () => {
         name="meddetail"
         options={{
           href: null,
+          headerShown: false,
+          tabBarStyle: {
+            display: "none",
+          },
         }}
       />
     </Tabs>
