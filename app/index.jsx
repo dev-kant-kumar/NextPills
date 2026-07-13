@@ -2,6 +2,8 @@ import { useRouter } from "expo-router";
 import { ClockIcon, LockIcon, PillIcon } from "phosphor-react-native";
 import { useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { useDispatch } from "react-redux";
+import { onBoarded } from "../store/slices/onboardingSlice";
 
 const onboardingScreen = [
   {
@@ -24,10 +26,11 @@ const onboardingScreen = [
 const Home = () => {
   const [currentScreen, setCurrentScreen] = useState(0);
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const handleNextScreen = () => {
     if (currentScreen >= onboardingScreen.length - 1) {
-      router.replace("/(tabs)/today");
+      handleSkipScreen();
     }
 
     setCurrentScreen((prev) => prev + 1);
@@ -35,6 +38,7 @@ const Home = () => {
 
   const handleSkipScreen = () => {
     router.replace("/(tabs)/today");
+    dispatch(onBoarded());
   };
 
   return (
