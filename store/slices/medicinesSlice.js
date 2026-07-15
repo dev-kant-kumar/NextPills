@@ -1,9 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSelector, createSlice } from "@reduxjs/toolkit";
 import * as crypto from "expo-crypto";
+import { selectToday } from "./appSlice";
+import { selectMedicineHistory } from "./historySlice";
+
+const today = new Date().toISOString().split("T")[0];
 
 const initialState = {
   medicines: [],
-  history: [],
+  today,
 };
 
 const medicinesSlice = createSlice({
@@ -39,6 +43,30 @@ const medicinesSlice = createSlice({
 export const selectMedicines = (state) => state.medicines.medicines;
 export const selectMedicineById = (id) => (state) =>
   state.medicines.medicines.find((m) => m._id === id);
+
+export const selectMedicineToTakeToday = createSelector(
+  [selectMedicines, selectMedicineHistory, selectToday],
+
+  (medicines, history, today) => {
+    const medsToTakeToday = medicines.flatMap((med) =>
+      med.times.map((time) => ({
+        scheduledTime: time,
+        ...med,
+      })),
+    );
+
+    const todaysHistory = history.filter(
+      (h) => h.timestamp.split("T")[0] === today,
+    );
+
+    return medsToTakeToday.filter(
+      (m) =>
+        !todaysHistory.some(
+          (h) => h._id === m._id && h.scheduledTime === m.scheduledTime,
+        ),
+    );
+  },
+);
 
 export default medicinesSlice.reducer;
 export const { addMedicine, updateMedicine, deleteMedicine } =

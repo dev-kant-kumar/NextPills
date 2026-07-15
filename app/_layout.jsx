@@ -1,12 +1,28 @@
+import { useAppState } from "@react-native-community/hooks";
 import { Stack } from "expo-router";
-import { Provider, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { Provider, useDispatch, useSelector } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import "../global.css";
 import Store, { persistor } from "../store/index";
+import { updateToday } from "../store/slices/appSlice";
 import { selectOnboardingStatus } from "../store/slices/onboardingSlice";
 
 const AppNavigation = () => {
   const onbordingStatus = useSelector(selectOnboardingStatus);
+  const dispatch = useDispatch();
+  const currentState = useAppState();
+
+  useEffect(() => {
+    dispatch(updateToday());
+  }, []);
+
+  useEffect(() => {
+    if (currentState === "active") {
+      dispatch(updateToday());
+    }
+  }, [dispatch, currentState]);
+
   return (
     <Stack>
       {!onbordingStatus && (
