@@ -14,10 +14,16 @@
         "buildType": "apk"
       }
     },
+    "apk-lite": {
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      }
+    },
     "production": {
       "autoIncrement": true,
       "android": {
-        "buildType": "app-bundle"
+        "buildType": "apk"
       }
     }
   },
