@@ -34,7 +34,7 @@ export default function RootLayout() {
     <Provider store={Store}>
       <PersistGate loading={null} persistor={persistor}>
         <AppStateWatcher />
-        <StatusBar style="dark" backgroundColor={COLORS.surfaceBase} />
+        <StatusBar style="light" backgroundColor={COLORS.accentPrimary} />
         <Stack
           screenOptions={{
             headerShown: false,

@@ -8,6 +8,11 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
+    "androidStatusBar": {
+      "barStyle": "light-content",
+      "backgroundColor": "#2D6A4F",
+      "translucent": false
+    },
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
@@ -30,8 +35,7 @@
         "POST_NOTIFICATIONS",
         "VIBRATE",
         "WAKE_LOCK"
-      ],
-      "edgeToEdgeEnabled": true
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png",
