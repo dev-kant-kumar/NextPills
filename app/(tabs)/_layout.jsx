@@ -1,29 +1,46 @@
-import { router, Tabs } from "expo-router";
+import { Tabs } from "expo-router";
 import {
   CalendarDotIcon,
   ClockCounterClockwiseIcon,
   GearIcon,
   PillIcon,
 } from "phosphor-react-native";
+import { COLORS } from "../../constants/theme";
 
-import AddButton from "../../components/micro/AddButton";
-
-const Mainlayout = () => {
+const MainLayout = () => {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: "#2D6A4F",
-        tabBarInactiveTintColor: "gray",
-        animation: "fade",
+        tabBarActiveTintColor: COLORS.accentPrimary,
+        tabBarInactiveTintColor: COLORS.textMuted,
+        tabBarStyle: {
+          backgroundColor: COLORS.surfaceCard,
+          borderTopColor: COLORS.border,
+          borderTopWidth: 1,
+        },
+        headerStyle: {
+          backgroundColor: COLORS.surfaceBase,
+          elevation: 0,
+          shadowOpacity: 0,
+        },
+        headerTitleStyle: {
+          color: COLORS.textPrimary,
+          fontSize: 20,
+          fontWeight: "600",
+        },
+        sceneStyle: {
+          backgroundColor: COLORS.surfaceBase,
+        },
       }}
     >
       <Tabs.Screen
         name="today"
         options={{
           title: "Today",
+          headerShown: false,
           tabBarLabel: "Today",
           tabBarIcon: ({ color, size }) => (
-            <CalendarDotIcon color={color} size={size} />
+            <CalendarDotIcon color={color} size={size || 24} />
           ),
         }}
       />
@@ -32,30 +49,11 @@ const Mainlayout = () => {
         name="medicines"
         options={{
           title: "Medicines",
+          headerShown: false,
           tabBarLabel: "Medicines",
           tabBarIcon: ({ color, size }) => (
-            <PillIcon color={color} size={size} />
+            <PillIcon color={color} size={size || 24} />
           ),
-        }}
-      />
-
-      {/* custom button */}
-
-      <Tabs.Screen
-        name="addmedicine"
-        options={{
-          title: "Add Medicine",
-          headerShown: false,
-          tabBarButton: AddButton,
-          tabBarStyle: {
-            display: "none",
-          },
-        }}
-        listeners={{
-          tabPress: (e) => {
-            e.preventDefault();
-            router.replace("/addmedicine");
-          },
         }}
       />
 
@@ -63,9 +61,10 @@ const Mainlayout = () => {
         name="history"
         options={{
           title: "History",
+          headerShown: false,
           tabBarLabel: "History",
           tabBarIcon: ({ color, size }) => (
-            <ClockCounterClockwiseIcon color={color} size={size} />
+            <ClockCounterClockwiseIcon color={color} size={size || 24} />
           ),
         }}
       />
@@ -74,25 +73,15 @@ const Mainlayout = () => {
         name="settings"
         options={{
           title: "Settings",
-          tabBarLabel: "Setting",
-          tabBarIcon: ({ color, size }) => (
-            <GearIcon color={color} size={size} />
-          ),
-        }}
-      />
-
-      <Tabs.Screen
-        name="meddetail"
-        options={{
-          href: null,
           headerShown: false,
-          tabBarStyle: {
-            display: "none",
-          },
+          tabBarLabel: "Settings",
+          tabBarIcon: ({ color, size }) => (
+            <GearIcon color={color} size={size || 24} />
+          ),
         }}
       />
     </Tabs>
   );
 };
 
-export default Mainlayout;
+export default MainLayout;

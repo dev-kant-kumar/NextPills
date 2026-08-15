@@ -1,21 +1,24 @@
 import { useAppState } from "@react-native-community/hooks";
 import { Stack } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
-import { Provider, useDispatch, useSelector } from "react-redux";
+import { Provider, useDispatch } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
+import { COLORS } from "../constants/theme";
 import "../global.css";
+import { useNotifications } from "../hooks/useNotifications";
 import Store, { persistor } from "../store/index";
 import { updateToday } from "../store/slices/appSlice";
-import { selectOnboardingStatus } from "../store/slices/onboardingSlice";
 
-const AppNavigation = () => {
-  const onbordingStatus = useSelector(selectOnboardingStatus);
+const AppStateWatcher = () => {
   const dispatch = useDispatch();
   const currentState = useAppState();
 
+  useNotifications();
+
   useEffect(() => {
     dispatch(updateToday());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (currentState === "active") {
@@ -23,27 +26,31 @@ const AppNavigation = () => {
     }
   }, [dispatch, currentState]);
 
-  return (
-    <Stack>
-      {!onbordingStatus && (
-        <Stack.Screen
-          name="index"
-          options={{ title: "Home", headerShown: false }}
-        />
-      )}
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-    </Stack>
-  );
+  return null;
 };
 
-const RootLayout = () => {
+export default function RootLayout() {
   return (
     <Provider store={Store}>
       <PersistGate loading={null} persistor={persistor}>
-        <AppNavigation />
+        <AppStateWatcher />
+        <StatusBar style="dark" backgroundColor={COLORS.surfaceBase} />
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            contentStyle: { backgroundColor: COLORS.surfaceBase },
+          }}
+        >
+          <Stack.Screen
+            name="index"
+            options={{ title: "Onboarding", headerShown: false }}
+          />
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="addmedicine" options={{ headerShown: false }} />
+          <Stack.Screen name="meddetail" options={{ headerShown: false }} />
+          <Stack.Screen name="privacy" options={{ headerShown: false }} />
+        </Stack>
       </PersistGate>
     </Provider>
   );
-};
-
-export default RootLayout;
+}

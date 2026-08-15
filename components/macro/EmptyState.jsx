@@ -1,29 +1,33 @@
 import { router } from "expo-router";
-import { PlusIcon } from "phosphor-react-native";
+import { PillIcon, PlusIcon } from "phosphor-react-native";
 import { Pressable, StyleSheet, Text, View } from "react-native";
+import { COLORS, RADIUS, SPACING } from "../../constants/theme";
 
-const EmptyState = () => {
-  const addMedicine = () => {
-    router.navigate("/addmedicine");
+const EmptyState = ({
+  title = "No medicines yet",
+  subTitle = "Add your first one to start getting reminders.",
+  showButton = true,
+  icon = <PillIcon size={40} color={COLORS.accentPrimary} />,
+}) => {
+  const handleAddMedicine = () => {
+    router.push({ pathname: "/addmedicine", params: {} });
   };
 
   return (
     <View style={styles.container}>
-      <View style={styles.iconContainer}>
-        <PlusIcon size={35} color={"#2D6A4F"} weight="bold" />
+      <View style={styles.iconContainer}>{icon}</View>
+
+      <View style={styles.textWrapper}>
+        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.subTitle}>{subTitle}</Text>
       </View>
 
-      <View>
-        <Text style={styles.title}>No medicines yet</Text>
-        <Text style={styles.subTitle}>
-          Add your first one to start getting reminders
-        </Text>
-      </View>
-
-      <Pressable style={styles.btn} onPress={addMedicine}>
-        <PlusIcon size={16} color={"white"} weight="bold" />
-        <Text style={styles.btnTxt}>Add Medicine</Text>
-      </Pressable>
+      {showButton && (
+        <Pressable style={styles.btn} onPress={handleAddMedicine}>
+          <PlusIcon size={18} color="#FFFFFF" weight="bold" />
+          <Text style={styles.btnTxt}>Add Medicine</Text>
+        </Pressable>
+      )}
     </View>
   );
 };
@@ -32,43 +36,56 @@ export default EmptyState;
 
 const styles = StyleSheet.create({
   container: {
-    // borderWidth: 1,
-    padding: 20,
-    gap: 30,
+    padding: SPACING.xl,
+    alignItems: "center",
+    justifyContent: "center",
+    marginVertical: SPACING.xxl,
   },
   iconContainer: {
-    backgroundColor: "lightgray",
-    height: 100,
-    width: 100,
-    borderRadius: 50,
+    backgroundColor: COLORS.surfaceSunken,
+    height: 96,
+    width: 96,
+    borderRadius: 48,
     justifyContent: "center",
     alignItems: "center",
-    alignSelf: "center",
+    marginBottom: SPACING.xl,
+  },
+  textWrapper: {
+    alignItems: "center",
+    marginBottom: SPACING.xl,
+    maxWidth: 280,
   },
   title: {
     textAlign: "center",
     fontSize: 20,
-    marginBlockEnd: 10,
+    fontWeight: "600",
+    color: COLORS.textPrimary,
+    marginBottom: SPACING.sm,
   },
   subTitle: {
     textAlign: "center",
-    fontWeight: 600,
-    color: "gray",
+    fontSize: 14,
+    color: COLORS.textSecondary,
+    lineHeight: 20,
   },
   btn: {
-    width: "70%",
-    backgroundColor: "#2D6A4F",
-    alignSelf: "center",
-    paddingVertical: 18,
-    borderRadius: 15,
+    backgroundColor: COLORS.accentPrimary,
+    paddingVertical: SPACING.md,
+    paddingHorizontal: SPACING.xl,
+    borderRadius: RADIUS.button,
     flexDirection: "row",
-    justifyContent: "center",
     alignItems: "center",
-    gap: 10,
+    gap: SPACING.sm,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
   },
   btnTxt: {
-    color: "white",
-    fontSize: 18,
-    fontWeight: 600,
+    color: "#FFFFFF",
+    fontSize: 15,
+    fontWeight: "600",
   },
 });
+
