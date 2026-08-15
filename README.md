@@ -1,225 +1,151 @@
+<div align="center">
+
 # 💊 NextPills
+### Privacy-First, 100% Offline Medicine Reminder & Adherence Tracker
 
-A simple, offline-first medicine reminder app built with React Native & Expo
+[![Release](https://img.shields.io/github/v/release/dev-kant-kumar/NextPills?color=2D6A4F&style=for-the-badge&logo=github)](https://github.com/dev-kant-kumar/NextPills/releases/latest)
+[![Download APK](https://img.shields.io/badge/Download-APK%20(v1.0.0)-E07A5F?style=for-the-badge&logo=android&logoColor=white)](https://github.com/dev-kant-kumar/NextPills/releases/download/v1.0.0/NextPills-v1.0.0.apk)
+[![License: MIT](https://img.shields.io/badge/License-MIT-2D6A4F?style=for-the-badge)](LICENSE)
+[![Platform](https://img.shields.io/badge/Platform-Android%20%7C%20iOS-1F2922?style=for-the-badge&logo=expo)](https://expo.dev)
 
-![React Native](https://img.shields.io/badge/React%20Native-20232A?style=flat&logo=react&logoColor=61DAFB)
-![Expo](https://img.shields.io/badge/Expo-000020?style=flat&logo=expo&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
-![Android](https://img.shields.io/badge/Android-3DDC84?style=flat&logo=android&logoColor=white)
+<p align="center">
+  <b>No Login · No Tracking · No Cloud Servers · Zero Network Calls</b>
+  <br />
+  <i>Your complete medicine schedule and history stay strictly on your device.</i>
+</p>
 
-No login. No signup. No internet. No backend. Your medicine schedule stays on your device — nowhere else.
+[📥 Download Latest APK](https://github.com/dev-kant-kumar/NextPills/releases/download/v1.0.0/NextPills-v1.0.0.apk) · [✨ Key Features](#-key-features) · [🛠️ Tech Stack](#️-tech-stack) · [📱 Quick Start](#-quick-start) · [🔒 Privacy Commitment](#-privacy--security-by-design)
 
----
-
-## 📖 About The Project
-
-NextPills is a minimal medicine reminder app built to solve one problem: remembering to take medicine, on time, without friction.
-
-Most reminder apps ask you to sign up, sync to a cloud, and accept tracking before you can set a single reminder. NextPills doesn't. You open the app, add a medicine, set a time — and it just works. Closed app, dead Wi-Fi, airplane mode — the reminder still fires.
-
-The interaction model is borrowed from something everyone already understands: payment app notifications. The same way a UPI app pops up "₹100 received," NextPills pops up "💊 Time to take Paracetamol 500mg" — heads-up, impossible to miss, actionable right from the lock screen.
-
-### Why This Project?
-
-Most reminder app tutorials stop at local notifications firing once. I wanted to build something that:
-
-- Handles **recurring, scheduled reminders** that survive app restarts and device reboots
-- Treats **on-device storage as the only source of truth** — no backend, no auth, no sync
-- Uses **actionable notifications** (Taken / Skip) instead of just a ping
-- Respects that this is health data — privacy by architecture, not by policy
+</div>
 
 ---
 
-## ✨ Features
+## 📖 Overview
 
-- 💊 **Add Medicines** — name, dosage, frequency, custom times
-- ⏰ **Heads-Up Reminders** — notification fires at the exact time, even if the app is closed
-- ✅ **Quick Actions** — mark Taken or Skip directly from the notification, no app open needed
-- 📋 **Today's Schedule** — see every dose due today, in order
-- 📊 **History Log** — track taken/missed/skipped over time
-- 🔒 **Fully Offline** — zero network calls, zero accounts, zero data leaving the device
-- 🎨 **Clean Interface** — built to feel like a native utility app, not a SaaS product
+**NextPills** is a minimal, reliable, and privacy-first medicine reminder application built with **React Native** and **Expo**. 
+
+Most health and medicine apps require cloud signups, account creation, and user telemetry just to schedule a basic pill alert. **NextPills removes all of that friction.** You open the app, add your medicines, set your times, and your phone handles the rest — whether you are in airplane mode, off the grid, or rebooting your device.
+
+---
+
+## ✨ Key Features
+
+- ⏰ **Actionable Heads-Up Reminders** — Local push notifications with sound that fire on time. Mark **Taken**, **Skip**, or **15m Snooze** directly from the notification.
+- 🌿 **Full-Bleed Modern UI** — Warm clinical aesthetic (`#FAF8F4` surface with `#2D6A4F` forest mint accents) and dynamic time-of-day greeting banners.
+- 📊 **Daily Intake Progress & Streaks** — Visual progress tracking bar and streak counter to celebrate daily adherence.
+- ⚠️ **5-Day Refill Inventory Alerts** — Automated local alerts warn you when a medicine supply drops to 5 or fewer days remaining.
+- 📈 **7-Day Adherence Visual Charts** — Interactive weekly bar chart breakdown with filter chips (`All Logs`, `Taken`, `Skipped`).
+- 📄 **One-Tap Medical Report Export** — Generate professionally styled **PDF Medical Reports** and structured **CSV logs** shareable directly with your physician via WhatsApp, Email, or Google Drive.
+- 📳 **Haptic Tactile Feedback** — Native vibration response on dose interactions.
+- 🔒 **100% On-Device Privacy** — Zero analytics, zero ads, zero external servers.
+
+---
+
+## 🏗️ Architecture & How Reminders Work
+
+```
+User Schedules Medicine
+         │
+         ▼
+expo-notifications (Local Trigger Engine)
+         │
+         ├──► On-Device SQLite / AsyncStorage (Redux Persist)
+         │
+         ▼
+[Scheduled Time Reached]
+         │
+         ▼
+Heads-Up Lock Screen Notification ("💊 Time to take Paracetamol 500mg")
+         │
+    ┌────┴───────────────────────────┐
+    ▼                                ▼
+[Taken]                           [Skip] / [15m Snooze]
+    │                                │
+    ▼                                ▼
+Inventory Decremented          Snooze Trigger Scheduled (15m)
+Adherence Log Written          Skipped Reason Logged
+    │                                │
+    └────────────────┬───────────────┘
+                     ▼
+       UI Updates & History Synced
+```
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Layer | Technology |
-|---|---|
-| Framework | React Native (Expo) |
-| Language | JavaScript (ES6+) |
-| Navigation | Expo Router (file-based) |
-| Local Storage | `@react-native-async-storage/async-storage` |
-| Notifications | `expo-notifications` |
-| State Management | Redux Toolkit |
-| Styling | StyleSheet API |
-
-No backend. No database server. No authentication provider.
+| Layer | Technology | Purpose |
+|---|---|---|
+| **Framework** | [React Native](https://reactnative.dev/) + [Expo SDK 54](https://expo.dev/) | Cross-platform native runtime |
+| **Routing** | [Expo Router v4](https://docs.expo.dev/router/introduction/) | File-based typed navigation |
+| **State Management** | [Redux Toolkit](https://redux-toolkit.js.org/) + [Redux Persist](https://github.com/rt2zz/redux-persist) | Predictable offline state caching |
+| **Notifications** | [`expo-notifications`](https://docs.expo.dev/versions/latest/sdk/notifications/) | Exact-alarm scheduled triggers & action categories |
+| **PDF & Export** | [`expo-print`](https://docs.expo.dev/versions/latest/sdk/print/) + [`expo-sharing`](https://docs.expo.dev/versions/latest/sdk/sharing/) | HTML5-to-PDF rendering & native share sheets |
+| **Icons & Haptics** | [`lucide-react-native`](https://lucide.dev/) + [`expo-haptics`](https://docs.expo.dev/versions/latest/sdk/haptics/) | Feather vector icons & vibration feedback |
+| **Design System** | Custom StyleSheet Design Tokens | Warm clinical palette with safe-area clearance |
 
 ---
 
-## 📁 Project Structure
-
-```
-NextPills/
-├── app/
-│   ├── _layout.js               # Root layout & theme
-│   ├── (tabs)/
-│   │   ├── _layout.js           # Bottom tab navigator config
-│   │   ├── today.js             # Today's schedule screen
-│   │   ├── medicines.js         # All medicines list screen
-│   │   └── history.js           # Taken/missed/skipped log
-│   └── medicine/
-│       ├── add.js               # Add new medicine screen
-│       └── [id].js              # Medicine detail / edit screen (dynamic route)
-├── components/
-│   ├── MedicineCard.js          # Reusable medicine row
-│   ├── ScheduleItem.js          # Today's schedule row with action buttons
-│   ├── HistoryItem.js           # History log row
-│   └── EmptyState.js            # Empty list fallback UI
-├── store/
-│   ├── store.js                 # Redux store config
-│   └── medicinesSlice.js        # Medicines + schedule state
-├── hooks/
-│   ├── useMedicines.js          # AsyncStorage read/write for medicines
-│   ├── useNotifications.js      # Scheduling + handling notification responses
-│   └── useHistory.js            # History log CRUD with AsyncStorage
-├── utils/
-│   ├── storage.js               # AsyncStorage helper wrappers
-│   ├── notificationHelper.js    # Build & schedule notification triggers
-│   └── dateHelpers.js           # Time/date formatting and comparisons
-├── constants/
-│   └── theme.js                 # Colors, spacing, typography
-└── assets/
-    └── icons/                   # Custom icons
-```
-
----
-
-## 📱 Screens
-
-### 1. Today
-The home screen. Shows every dose scheduled for today, in chronological order, with a clear visual state for taken, upcoming, and missed doses. Quick-action buttons let you mark a dose without leaving the screen.
-
-### 2. Medicines
-Full list of every medicine you've added, with dosage and frequency. Tap to view or edit details, including changing or removing scheduled times.
-
-### 3. Add Medicine
-Form to add a new medicine — name, dosage, how often, and what time(s) of day. Saves to AsyncStorage and immediately schedules the corresponding local notifications.
-
-### 4. History
-A log of every dose over time — taken, missed, or skipped — so you can see adherence patterns at a glance.
-
-### 5. Medicine Detail
-View or edit a single medicine's schedule. Delete the medicine entirely, which also cancels its pending notifications.
-
----
-
-## 🔔 How Reminders Work
-
-```
-Add medicine + time
-        ↓
-expo-notifications schedules a local trigger
-        ↓
-Device fires notification at exact time
-   (works even if app is closed or device was rebooted,
-    once trigger is rescheduled on next app open)
-        ↓
-Notification shows: "💊 Time to take [Medicine] [Dosage]"
-   with Taken / Skip action buttons
-        ↓
-User response is written to AsyncStorage history
-        ↓
-Today screen + History screen update
-```
-
-No server round-trip at any point. The entire flow happens on-device.
-
----
-
-## 🚀 Getting Started
+## 📱 Quick Start & Local Setup
 
 ### Prerequisites
-- Node.js 18+
-- Expo CLI
-- Android device or emulator
+- **Node.js**: `v18.0.0` or higher
+- **Package Manager**: `npm` or `yarn`
+- **Expo Go App** (or Android Emulator / Physical Device)
 
 ### Installation
 
 ```bash
-# Clone the repo
+# 1. Clone the repository
 git clone https://github.com/dev-kant-kumar/NextPills.git
 cd NextPills
 
-# Install dependencies
+# 2. Install dependencies
 npm install
 
-# Start dev server
+# 3. Start Expo development server
 npx expo start
 ```
 
-### Building APK
+### Build Standalone Android APK
 
 ```bash
-# Install EAS CLI
-npm install -g eas-cli
-
-# Configure build
-eas build:configure
-
-# Build APK for Android
-eas build -p android --profile preview
+# Build APK using free EAS cloud builder
+npx eas-cli build -p android --profile preview
 ```
 
 ---
 
-## 🧠 What I'm Learning
+## 🔒 Privacy & Security by Design
 
-This is my first app built around scheduled local notifications and pure on-device persistence, without any backend.
-
-**Expo Notifications & Triggers**
-Scheduling a one-time alert is trivial. Scheduling recurring, time-accurate reminders that survive app kills and device reboots — and cancelling/rescheduling them correctly when a medicine is edited or deleted — is where the real learning is.
-
-**AsyncStorage as the Only Data Layer**
-Designing a data model (medicines, schedules, history) that lives entirely in key-value storage, stays fast to read/write, and doesn't get corrupted by partial writes or concurrent updates.
-
-**Actionable Notifications**
-Handling user responses (Taken / Skip) from inside a notification — without opening the app — and writing that response back into Redux + AsyncStorage state correctly.
-
-**Designing for Trust**
-A health-adjacent app with no login and no cloud has to *earn* trust through reliability of the one thing it promises: the reminder fires, on time, every time.
+- **Zero Cloud Dependence**: NextPills contains no API endpoints, analytics trackers, or authentication tokens.
+- **Data Retention**: Your health data is exclusively stored within your device's private sandboxed app directory (`AsyncStorage`).
+- **Data Deletion**: Tapping **Settings → Your Data → Clear All Data** or uninstalling the app permanently purges all data from the device.
 
 ---
 
-## 🗺️ Roadmap
+## 🗺️ Project Roadmap
 
-- [ ] Project setup & navigation architecture
-- [ ] Data model: medicines, schedules, history (AsyncStorage)
-- [ ] Add medicine screen
-- [ ] Today's schedule screen
-- [ ] Notification scheduling (expo-notifications)
-- [ ] Actionable notifications (Taken / Skip)
-- [ ] History log screen
-- [ ] Medicine detail / edit / delete
-- [ ] Reboot persistence testing
-- [ ] APK build & release
-
----
-
-## 👨‍💻 Author
-
-**Dev Kant Kumar**
-[Portfolio](https://devkantkumar.com)
-
-NextPills is built to learn local notifications and on-device data persistence properly — by shipping something real, not a tutorial clone.
+- [x] Onboarding flow with Android 13+ runtime notification permissions
+- [x] Chronological daily dose intake schedule with status rings
+- [x] Quick Action buttons (`Taken`, `Skip`, `15m Snooze`)
+- [x] 5-Day Low Stock refill alerts
+- [x] Weekly 7-day adherence chart & filter chips
+- [x] PDF Medical Adherence Report generator & CSV export
+- [x] Full-bleed forest green theme & custom status bar integration
+- [x] Native haptic tactile feedback
+- [x] Standalone Android APK release (v1.0.0)
 
 ---
 
 ## 📄 License
 
-This project is open source and available under the MIT License.
+Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for more information.
 
 ---
 
-*Built with ❤️ — your medicine schedule, staying exactly where it should: on your phone.*
+<div align="center">
+  <b>Developed with ❤️ by <a href="https://devkantkumar.com">Dev Kant Kumar</a></b>
+  <br />
+  <sub>Keeping your medicine schedule exactly where it belongs — on your phone.</sub>
+</div>
