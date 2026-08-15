@@ -73,6 +73,8 @@ export const setupAndroidNotificationChannel = async () => {
       sound: "default",
       enableVibrate: true,
       showBadge: true,
+      lockscreenVisibility: Notifications.AndroidNotificationVisibility.PUBLIC,
+      bypassDnd: true,
     });
   } catch (error) {
     // Channel warning
@@ -122,6 +124,14 @@ export const scheduleMedicineNotifications = async (medicine) => {
       Sat: 7,
     };
 
+    const dailyTriggerType = Notifications.SchedulableTriggerInputTypes
+      ? Notifications.SchedulableTriggerInputTypes.DAILY
+      : "daily";
+
+    const weeklyTriggerType = Notifications.SchedulableTriggerInputTypes
+      ? Notifications.SchedulableTriggerInputTypes.WEEKLY
+      : "weekly";
+
     for (const timeStr of medicine.times) {
       const { hours, minutes } = parseTimeString(timeStr);
 
@@ -139,9 +149,9 @@ export const scheduleMedicineNotifications = async (medicine) => {
         const identifier = await Notifications.scheduleNotificationAsync({
           content,
           trigger: {
+            type: dailyTriggerType,
             hour: hours,
             minute: minutes,
-            repeats: true,
           },
         });
         scheduledIds.push(identifier);
@@ -152,10 +162,10 @@ export const scheduleMedicineNotifications = async (medicine) => {
             const identifier = await Notifications.scheduleNotificationAsync({
               content,
               trigger: {
+                type: weeklyTriggerType,
                 weekday: weekday,
                 hour: hours,
                 minute: minutes,
-                repeats: true,
               },
             });
             scheduledIds.push(identifier);
