@@ -15,6 +15,7 @@ import {
   TextInput,
   View,
 } from "react-native";
+import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 import { COLORS, RADIUS, SPACING } from "../constants/theme";
@@ -112,6 +113,7 @@ const Onboarding = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar style="dark" translucent={false} backgroundColor={COLORS.surfaceBase} />
       <View style={styles.content}>
         <View style={styles.iconWrapper}>
           <View

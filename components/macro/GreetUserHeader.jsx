@@ -6,7 +6,10 @@ import { selectUserName } from "../../store/slices/appSlice";
 import { selectGroupedTodayDoses } from "../../store/slices/medicinesSlice";
 import { formatDisplayDate, getGreeting } from "../../utils/dateHelpers";
 
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+
 const GreetUserHeader = () => {
+  const insets = useSafeAreaInsets();
   const userName = useSelector(selectUserName);
   const greeting = getGreeting();
   const dateStr = formatDisplayDate();
@@ -14,9 +17,6 @@ const GreetUserHeader = () => {
 
   const totalDoses = (allSorted || []).length;
   const takenDoses = (allSorted || []).filter((d) => d.status === "taken").length;
-  const pendingCount = (allSorted || []).filter(
-    (d) => d.status === "due-now" || d.status === "upcoming" || d.status === "missed",
-  ).length;
   const progressPct = totalDoses > 0 ? Math.round((takenDoses / totalDoses) * 100) : 0;
   const isAllDone = totalDoses > 0 && takenDoses === totalDoses;
 
@@ -24,7 +24,12 @@ const GreetUserHeader = () => {
     greeting.toLowerCase().includes("evening") || greeting.toLowerCase().includes("night");
 
   return (
-    <View style={styles.fullBleedHero}>
+    <View
+      style={[
+        styles.fullBleedHero,
+        { paddingTop: Math.max(insets.top, 20) + SPACING.md },
+      ]}
+    >
       {/* Top Meta Row */}
       <View style={styles.topRow}>
         <View style={styles.timeBadge}>
@@ -78,15 +83,7 @@ const styles = StyleSheet.create({
   fullBleedHero: {
     backgroundColor: COLORS.accentPrimary,
     paddingHorizontal: SPACING.xl,
-    paddingTop: SPACING.xl,
     paddingBottom: SPACING.xl,
-    borderRadius: 0,
-    marginBottom: SPACING.lg,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 4,
-    elevation: 3,
   },
   topRow: {
     flexDirection: "row",

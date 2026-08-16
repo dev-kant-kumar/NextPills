@@ -2,7 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import { CheckCircleIcon, ClockIcon, XCircleIcon } from "phosphor-react-native";
 import { useState } from "react";
 import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useSelector } from "react-redux";
 import EmptyState from "../../components/macro/EmptyState";
 import { COLORS, RADIUS, SPACING } from "../../constants/theme";
@@ -12,6 +12,7 @@ import {
 } from "../../store/slices/historySlice";
 
 const History = () => {
+  const insets = useSafeAreaInsets();
   const [activeFilter, setActiveFilter] = useState("all"); // 'all' | 'taken' | 'skip'
   const groupedHistory = useSelector(selectGroupedHistory);
   const { totalTaken, totalScheduled, daysData } = useSelector(selectWeeklyAdherence);
@@ -84,22 +85,29 @@ const History = () => {
   };
 
   return (
-    <SafeAreaView edges={["top", "left", "right"]} style={styles.safeArea}>
-      <StatusBar style="light" backgroundColor={COLORS.accentPrimary} />
+    <View style={styles.rootContainer}>
+      <StatusBar style="light" translucent backgroundColor="transparent" />
+
+      {/* Full-Bleed Green Top Header */}
+      <View
+        style={[
+          styles.fullBleedHeader,
+          { paddingTop: Math.max(insets.top, 20) + SPACING.md },
+        ]}
+      >
+        <Text style={styles.headerTitle}>History</Text>
+        <Text style={styles.headerSubtitle}>
+          {`Weekly Adherence: ${totalTaken}/${totalScheduled} doses taken`}
+        </Text>
+      </View>
+
       <FlatList
+        style={styles.flatList}
         data={[]}
         renderItem={null}
         contentContainerStyle={styles.listContent}
         ListHeaderComponent={
           <View style={styles.container}>
-            {/* Full-Bleed Green Top Header Banner */}
-            <View style={styles.fullBleedHeader}>
-              <Text style={styles.headerTitle}>History</Text>
-              <Text style={styles.headerSubtitle}>
-                {`Weekly Adherence: ${totalTaken}/${totalScheduled} doses taken`}
-              </Text>
-            </View>
-
             {/* Weekly Summary Card */}
             <View style={styles.summaryCard}>
               <Text style={styles.summaryTitle}>7-Day Dose Adherence</Text>
@@ -215,35 +223,37 @@ const History = () => {
           </View>
         }
       />
-    </SafeAreaView>
+    </View>
   );
 };
 
 export default History;
 
 const styles = StyleSheet.create({
-  safeArea: {
+  rootContainer: {
+    flex: 1,
+    backgroundColor: COLORS.surfaceBase,
+  },
+  headerSafeArea: {
+    backgroundColor: COLORS.accentPrimary,
+  },
+  flatList: {
     flex: 1,
     backgroundColor: COLORS.surfaceBase,
   },
   listContent: {
-    paddingBottom: SPACING.lg,
+    paddingBottom: 110,
+    backgroundColor: COLORS.surfaceBase,
   },
   container: {
+    paddingTop: SPACING.lg,
     paddingBottom: SPACING.sm,
     backgroundColor: COLORS.surfaceBase,
   },
   fullBleedHeader: {
     backgroundColor: COLORS.accentPrimary,
     paddingHorizontal: SPACING.xl,
-    paddingTop: SPACING.xl,
     paddingBottom: SPACING.xl,
-    marginBottom: SPACING.lg,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 4,
-    elevation: 3,
   },
   headerTitle: {
     fontSize: 26,

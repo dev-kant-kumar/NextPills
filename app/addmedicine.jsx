@@ -17,7 +17,7 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 import ConfirmationModal from "../components/macro/ConfirmationModal";
 import { COLORS, RADIUS, SPACING } from "../constants/theme";
@@ -49,6 +49,7 @@ const getInitialMedicineData = () => ({
 });
 
 const AddMedicine = () => {
+  const insets = useSafeAreaInsets();
   const params = useLocalSearchParams();
   const rawId = params?.id;
   const id = Array.isArray(rawId) ? rawId[0] : rawId;
@@ -201,11 +202,16 @@ const AddMedicine = () => {
   };
 
   return (
-    <SafeAreaView edges={["top", "left", "right"]} style={styles.safeArea}>
-      <StatusBar style="light" backgroundColor={COLORS.accentPrimary} />
+    <View style={styles.container}>
+      <StatusBar style="light" translucent backgroundColor="transparent" />
 
       {/* Full-Bleed Green Top Header */}
-      <View style={styles.fullBleedHeader}>
+      <View
+        style={[
+          styles.fullBleedHeader,
+          { paddingTop: Math.max(insets.top, 20) + SPACING.md },
+        ]}
+      >
         <Pressable onPress={handleBack} style={styles.backBtn}>
           <ArrowLeftIcon size={22} color="#FFFFFF" />
         </Pressable>
@@ -214,7 +220,7 @@ const AddMedicine = () => {
         </Text>
       </View>
 
-      <ScrollView contentContainerStyle={styles.scrollContent}>
+      <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
         <View style={styles.form}>
           {/* Medicine Name */}
           <View style={styles.fieldGroup}>
@@ -408,33 +414,35 @@ const AddMedicine = () => {
         onConfirm={handleDelete}
         onCancel={() => setShowDeleteModal(false)}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 
 export default AddMedicine;
 
 const styles = StyleSheet.create({
-  safeArea: {
+  container: {
+    flex: 1,
+    backgroundColor: COLORS.surfaceBase,
+  },
+  headerSafeArea: {
+    backgroundColor: COLORS.accentPrimary,
+  },
+  scrollView: {
     flex: 1,
     backgroundColor: COLORS.surfaceBase,
   },
   scrollContent: {
     padding: SPACING.xl,
+    paddingBottom: 60,
     backgroundColor: COLORS.surfaceBase,
   },
   fullBleedHeader: {
     backgroundColor: COLORS.accentPrimary,
     paddingHorizontal: SPACING.xl,
-    paddingTop: SPACING.lg,
     paddingBottom: SPACING.lg,
     flexDirection: "row",
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 4,
-    elevation: 3,
   },
   backBtn: {
     marginRight: SPACING.lg,

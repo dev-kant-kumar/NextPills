@@ -2,6 +2,7 @@ import { useAppState } from "@react-native-community/hooks";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Provider, useDispatch } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { COLORS } from "../constants/theme";
@@ -10,11 +11,24 @@ import { useNotifications } from "../hooks/useNotifications";
 import Store, { persistor } from "../store/index";
 import { updateToday } from "../store/slices/appSlice";
 
+import * as NavigationBar from "expo-navigation-bar";
+import { Platform, StatusBar as RNStatusBar } from "react-native";
+
 const AppStateWatcher = () => {
   const dispatch = useDispatch();
   const currentState = useAppState();
 
   useNotifications();
+
+  useEffect(() => {
+    if (Platform.OS === "android") {
+      RNStatusBar.setTranslucent(true);
+      RNStatusBar.setBackgroundColor("transparent", true);
+      RNStatusBar.setBarStyle("light-content", true);
+      NavigationBar.setBackgroundColorAsync(COLORS.surfaceBase).catch(() => {});
+      NavigationBar.setButtonStyleAsync("dark").catch(() => {});
+    }
+  }, []);
 
   useEffect(() => {
     dispatch(updateToday());
@@ -23,6 +37,13 @@ const AppStateWatcher = () => {
   useEffect(() => {
     if (currentState === "active") {
       dispatch(updateToday());
+      if (Platform.OS === "android") {
+        RNStatusBar.setTranslucent(true);
+        RNStatusBar.setBackgroundColor("transparent", true);
+        RNStatusBar.setBarStyle("light-content", true);
+        NavigationBar.setBackgroundColorAsync(COLORS.surfaceBase).catch(() => {});
+        NavigationBar.setButtonStyleAsync("dark").catch(() => {});
+      }
     }
   }, [dispatch, currentState]);
 
@@ -31,26 +52,28 @@ const AppStateWatcher = () => {
 
 export default function RootLayout() {
   return (
-    <Provider store={Store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <AppStateWatcher />
-        <StatusBar style="light" backgroundColor={COLORS.accentPrimary} />
-        <Stack
-          screenOptions={{
-            headerShown: false,
-            contentStyle: { backgroundColor: COLORS.surfaceBase },
-          }}
-        >
-          <Stack.Screen
-            name="index"
-            options={{ title: "Onboarding", headerShown: false }}
-          />
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="addmedicine" options={{ headerShown: false }} />
-          <Stack.Screen name="meddetail" options={{ headerShown: false }} />
-          <Stack.Screen name="privacy" options={{ headerShown: false }} />
-        </Stack>
-      </PersistGate>
-    </Provider>
+    <SafeAreaProvider>
+      <Provider store={Store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <AppStateWatcher />
+          <StatusBar style="light" translucent backgroundColor="transparent" />
+          <Stack
+            screenOptions={{
+              headerShown: false,
+              contentStyle: { backgroundColor: COLORS.surfaceBase },
+            }}
+          >
+            <Stack.Screen
+              name="index"
+              options={{ title: "Onboarding", headerShown: false }}
+            />
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="addmedicine" options={{ headerShown: false }} />
+            <Stack.Screen name="meddetail" options={{ headerShown: false }} />
+            <Stack.Screen name="privacy" options={{ headerShown: false }} />
+          </Stack>
+        </PersistGate>
+      </Provider>
+    </SafeAreaProvider>
   );
 }

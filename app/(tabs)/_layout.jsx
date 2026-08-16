@@ -5,18 +5,36 @@ import {
   GearIcon,
   PillIcon,
 } from "phosphor-react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { COLORS } from "../../constants/theme";
 
 const MainLayout = () => {
+  const insets = useSafeAreaInsets();
+  const bottomInset = insets.bottom || 0;
+  const bottomPadding = bottomInset > 0 ? bottomInset + 4 : 8;
+  const tabHeight = 56 + bottomPadding;
+
   return (
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: COLORS.accentPrimary,
         tabBarInactiveTintColor: COLORS.textMuted,
         tabBarStyle: {
-          backgroundColor: COLORS.surfaceCard,
+          backgroundColor: COLORS.surfaceBase,
           borderTopColor: COLORS.border,
           borderTopWidth: 1,
+          height: tabHeight,
+          paddingBottom: bottomPadding,
+          paddingTop: 6,
+          elevation: 8,
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: -2 },
+          shadowOpacity: 0.04,
+          shadowRadius: 6,
+        },
+        tabBarLabelStyle: {
+          fontSize: 11,
+          fontWeight: "600",
         },
         headerStyle: {
           backgroundColor: COLORS.surfaceBase,

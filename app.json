@@ -10,8 +10,12 @@
     "newArchEnabled": true,
     "androidStatusBar": {
       "barStyle": "light-content",
-      "backgroundColor": "#2D6A4F",
-      "translucent": false
+      "backgroundColor": "transparent",
+      "translucent": true
+    },
+    "androidNavigationBar": {
+      "barStyle": "dark-content",
+      "backgroundColor": "#FAF8F4"
     },
     "splash": {
       "image": "./assets/splash-icon.png",
@@ -26,7 +30,7 @@
       "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#2D6A4F"
+        "backgroundColor": "#FAF8F4"
       },
       "permissions": [
         "RECEIVE_BOOT_COMPLETED",

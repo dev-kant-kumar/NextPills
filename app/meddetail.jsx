@@ -17,7 +17,7 @@ import {
   Text,
   View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 import ConfirmationModal from "../components/macro/ConfirmationModal";
 import { COLORS, RADIUS, SPACING } from "../constants/theme";
@@ -47,6 +47,7 @@ const formatLogTime = (ts) => {
 };
 
 const MedDetail = () => {
+  const insets = useSafeAreaInsets();
   const params = useLocalSearchParams();
   const rawId = params?.id;
   const id = Array.isArray(rawId) ? rawId[0] : rawId;
@@ -61,15 +62,15 @@ const MedDetail = () => {
 
   if (!medicine) {
     return (
-      <SafeAreaView style={styles.safeArea}>
-        <StatusBar style="light" backgroundColor={COLORS.accentPrimary} />
+      <View style={[styles.container, { paddingTop: insets.top }]}>
+        <StatusBar style="light" translucent backgroundColor="transparent" />
         <View style={styles.notFoundContainer}>
           <Text style={styles.notFoundText}>Medicine not found.</Text>
           <Pressable style={styles.backBtn} onPress={() => router.back()}>
             <Text style={styles.backBtnText}>Go Back</Text>
           </Pressable>
         </View>
-      </SafeAreaView>
+      </View>
     );
   }
 
@@ -96,11 +97,16 @@ const MedDetail = () => {
     typeof medicine.quantityRemaining === "number" && medicine.quantityRemaining <= 5;
 
   return (
-    <SafeAreaView edges={["top", "left", "right"]} style={styles.safeArea}>
-      <StatusBar style="light" backgroundColor={COLORS.accentPrimary} />
+    <View style={styles.container}>
+      <StatusBar style="light" translucent backgroundColor="transparent" />
 
       {/* Full-Bleed Green Top Header & Hero */}
-      <View style={styles.fullBleedHeader}>
+      <View
+        style={[
+          styles.fullBleedHeader,
+          { paddingTop: Math.max(insets.top, 20) + SPACING.md },
+        ]}
+      >
         <View style={styles.topNav}>
           <Pressable onPress={() => router.back()} style={styles.iconBtn}>
             <ArrowLeftIcon size={22} color="#FFFFFF" />
@@ -140,7 +146,7 @@ const MedDetail = () => {
         </View>
       </View>
 
-      <ScrollView contentContainerStyle={styles.scrollContent}>
+      <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
         {/* Seamless Performance Stats Card */}
         <View style={styles.statsCard}>
           <View style={styles.statCol}>
@@ -259,14 +265,21 @@ const MedDetail = () => {
         onConfirm={handleDelete}
         onCancel={() => setShowDeleteModal(false)}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 
 export default MedDetail;
 
 const styles = StyleSheet.create({
-  safeArea: {
+  container: {
+    flex: 1,
+    backgroundColor: COLORS.surfaceBase,
+  },
+  headerSafeArea: {
+    backgroundColor: COLORS.accentPrimary,
+  },
+  scrollView: {
     flex: 1,
     backgroundColor: COLORS.surfaceBase,
   },
@@ -278,13 +291,7 @@ const styles = StyleSheet.create({
   fullBleedHeader: {
     backgroundColor: COLORS.accentPrimary,
     paddingHorizontal: SPACING.xl,
-    paddingTop: SPACING.lg,
     paddingBottom: SPACING.xl,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 4,
-    elevation: 3,
   },
   topNav: {
     flexDirection: "row",

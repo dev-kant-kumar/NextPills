@@ -175,82 +175,87 @@ const Today = () => {
   };
 
   return (
-    <SafeAreaView edges={["top", "left", "right"]} style={styles.safeArea}>
-      <StatusBar style="light" backgroundColor={COLORS.accentPrimary} />
-      <View style={styles.container}>
-        <ScrollView contentContainerStyle={styles.scrollContent}>
-          <GreetUserHeader />
+    <View style={styles.container}>
+      <StatusBar style="light" translucent backgroundColor="transparent" />
 
-          {/* Adherence Streak Badge */}
-          <StreakBadge streakCount={streakCount} />
+      {/* Full-Bleed Green Greet User Hero Header */}
+      <GreetUserHeader />
 
-          <View style={styles.listContainer}>
-            {hasDoses ? (
-              <>
-                {/* DUE NOW & OVERDUE SECTION */}
-                {groups.DUE_NOW.length > 0 && (
-                  <View style={styles.sectionGroup}>
-                    <Text style={styles.sectionHeader}>DUE NOW & OVERDUE</Text>
-                    {groups.DUE_NOW.map(renderDoseCard)}
-                  </View>
-                )}
+      <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
+        {/* Adherence Streak Badge */}
+        <StreakBadge streakCount={streakCount} />
 
-                {/* UPCOMING SECTION */}
-                {groups.UPCOMING.length > 0 && (
-                  <View style={styles.sectionGroup}>
-                    <Text style={styles.sectionHeader}>UPCOMING</Text>
-                    {groups.UPCOMING.map(renderDoseCard)}
-                  </View>
-                )}
+        <View style={styles.listContainer}>
+          {hasDoses ? (
+            <>
+              {/* DUE NOW & OVERDUE SECTION */}
+              {groups.DUE_NOW.length > 0 && (
+                <View style={styles.sectionGroup}>
+                  <Text style={styles.sectionHeader}>DUE NOW & OVERDUE</Text>
+                  {groups.DUE_NOW.map(renderDoseCard)}
+                </View>
+              )}
 
-                {/* COMPLETED SECTION */}
-                {groups.COMPLETED.length > 0 && (
-                  <View style={styles.sectionGroup}>
-                    <Text style={styles.sectionHeader}>COMPLETED</Text>
-                    {groups.COMPLETED.map(renderDoseCard)}
-                  </View>
-                )}
-              </>
-            ) : (
-              <EmptyState
-                title="No medicines for today"
-                subTitle="You're all caught up, or tap below to add a new medicine schedule."
-              />
-            )}
-          </View>
-        </ScrollView>
+              {/* UPCOMING SECTION */}
+              {groups.UPCOMING.length > 0 && (
+                <View style={styles.sectionGroup}>
+                  <Text style={styles.sectionHeader}>UPCOMING</Text>
+                  {groups.UPCOMING.map(renderDoseCard)}
+                </View>
+              )}
 
-        {/* Floating Add Button */}
-        {hasDoses && (
-          <Pressable
-            style={[styles.fab, { bottom: 20 + insets.bottom }]}
-            onPress={handleAddMedicine}
-          >
-            <PlusIcon size={26} color="#FFFFFF" weight="bold" />
-          </Pressable>
-        )}
-      </View>
-    </SafeAreaView>
+              {/* COMPLETED SECTION */}
+              {groups.COMPLETED.length > 0 && (
+                <View style={styles.sectionGroup}>
+                  <Text style={styles.sectionHeader}>COMPLETED</Text>
+                  {groups.COMPLETED.map(renderDoseCard)}
+                </View>
+              )}
+            </>
+          ) : (
+            <EmptyState
+              title="No medicines for today"
+              subTitle="You're all caught up, or tap below to add a new medicine schedule."
+            />
+          )}
+        </View>
+      </ScrollView>
+
+      {/* Floating Add Button */}
+      {hasDoses && (
+        <Pressable
+          style={[styles.fab, { bottom: 20 + insets.bottom }]}
+          onPress={handleAddMedicine}
+        >
+          <PlusIcon size={26} color="#FFFFFF" weight="bold" />
+        </Pressable>
+      )}
+    </View>
   );
 };
 
 export default Today;
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: COLORS.surfaceBase,
-  },
   container: {
     flex: 1,
     position: "relative",
     backgroundColor: COLORS.surfaceBase,
   },
+  headerSafeArea: {
+    backgroundColor: COLORS.accentPrimary,
+  },
+  scrollView: {
+    flex: 1,
+    backgroundColor: COLORS.surfaceBase,
+  },
   scrollContent: {
+    paddingTop: SPACING.md,
     paddingBottom: 100,
+    backgroundColor: COLORS.surfaceBase,
   },
   listContainer: {
-    paddingHorizontal: SPACING.lg,
+    paddingHorizontal: SPACING.xl,
     paddingTop: SPACING.xs,
   },
   sectionGroup: {

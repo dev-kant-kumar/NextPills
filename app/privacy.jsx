@@ -2,25 +2,32 @@ import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { ArrowLeftIcon, ShieldCheckIcon } from "phosphor-react-native";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { COLORS, RADIUS, SPACING } from "../constants/theme";
 
 const PrivacyPolicy = () => {
+  const insets = useSafeAreaInsets();
   const router = useRouter();
 
   return (
-    <SafeAreaView edges={["top", "left", "right"]} style={styles.safeArea}>
-      <StatusBar style="light" backgroundColor={COLORS.accentPrimary} />
+    <View style={styles.container}>
+      <StatusBar style="light" translucent backgroundColor="transparent" />
 
-      {/* Full-Bleed Green Header */}
-      <View style={styles.fullBleedHeader}>
+      {/* Full-Bleed Green Top Header */}
+      <View
+        style={[
+          styles.fullBleedHeader,
+          { paddingTop: Math.max(insets.top, 20) + SPACING.md },
+        ]}
+      >
         <Pressable onPress={() => router.back()} style={styles.backBtn}>
           <ArrowLeftIcon size={22} color="#FFFFFF" />
         </Pressable>
         <Text style={styles.headerTitle}>Privacy Policy</Text>
       </View>
 
-      <ScrollView contentContainerStyle={styles.scrollContent}>
+      {/* Body Content with Off-White Background */}
+      <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
         {/* Trust Badge */}
         <View style={styles.trustBadge}>
           <ShieldCheckIcon size={28} color={COLORS.accentPrimary} weight="fill" />
@@ -157,29 +164,26 @@ const PrivacyPolicy = () => {
           </Text>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 
 export default PrivacyPolicy;
 
 const styles = StyleSheet.create({
-  safeArea: {
+  container: {
     flex: 1,
     backgroundColor: COLORS.surfaceBase,
+  },
+  headerSafeArea: {
+    backgroundColor: COLORS.accentPrimary,
   },
   fullBleedHeader: {
     backgroundColor: COLORS.accentPrimary,
     paddingHorizontal: SPACING.xl,
-    paddingTop: SPACING.lg,
     paddingBottom: SPACING.lg,
     flexDirection: "row",
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 4,
-    elevation: 3,
   },
   backBtn: {
     marginRight: SPACING.lg,
@@ -193,9 +197,14 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     letterSpacing: -0.3,
   },
+  scrollView: {
+    flex: 1,
+    backgroundColor: COLORS.surfaceBase,
+  },
   scrollContent: {
     padding: SPACING.xl,
     paddingBottom: SPACING.xxxl,
+    backgroundColor: COLORS.surfaceBase,
   },
   trustBadge: {
     flexDirection: "row",

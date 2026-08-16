@@ -26,23 +26,29 @@ const Medicines = () => {
   };
 
   return (
-    <SafeAreaView edges={["top", "left", "right"]} style={styles.safeArea}>
-      <StatusBar style="light" backgroundColor={COLORS.accentPrimary} />
-      <View style={styles.container}>
-        {/* Full-Bleed Green Top Header Banner */}
-        <View style={styles.fullBleedHeader}>
-          <Text style={styles.headerTitle}>Medicines</Text>
-          <Text style={styles.headerSubtitle}>
-            {medicines && medicines.length > 0
-              ? `${medicines.length} saved ${medicines.length === 1 ? "medicine" : "medicines"}`
-              : "Your medicine catalog"}
-          </Text>
-        </View>
+    <View style={styles.container}>
+      <StatusBar style="light" translucent backgroundColor="transparent" />
 
-        {medicines && medicines.length > 0 ? (
-          <FlatList
-            data={medicines}
-            keyExtractor={(item) => item._id}
+      {/* Full-Bleed Green Top Header */}
+      <View
+        style={[
+          styles.fullBleedHeader,
+          { paddingTop: Math.max(insets.top, 20) + SPACING.md },
+        ]}
+      >
+        <Text style={styles.headerTitle}>Medicines</Text>
+        <Text style={styles.headerSubtitle}>
+          {medicines && medicines.length > 0
+            ? `${medicines.length} saved ${medicines.length === 1 ? "medicine" : "medicines"}`
+            : "Your medicine catalog"}
+        </Text>
+      </View>
+
+      {medicines && medicines.length > 0 ? (
+        <FlatList
+          style={styles.flatList}
+          data={medicines}
+          keyExtractor={(item) => item._id}
             contentContainerStyle={styles.listContent}
             renderItem={({ item }) => {
               const freqText =
@@ -108,33 +114,28 @@ const Medicines = () => {
           </Pressable>
         )}
       </View>
-    </SafeAreaView>
   );
 };
 
 export default Medicines;
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: COLORS.surfaceBase,
-  },
   container: {
     flex: 1,
     position: "relative",
     backgroundColor: COLORS.surfaceBase,
   },
+  headerSafeArea: {
+    backgroundColor: COLORS.accentPrimary,
+  },
+  flatList: {
+    flex: 1,
+    backgroundColor: COLORS.surfaceBase,
+  },
   fullBleedHeader: {
     backgroundColor: COLORS.accentPrimary,
     paddingHorizontal: SPACING.xl,
-    paddingTop: SPACING.xl,
     paddingBottom: SPACING.xl,
-    marginBottom: SPACING.lg,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 4,
-    elevation: 3,
   },
   headerTitle: {
     fontSize: 26,
@@ -150,6 +151,7 @@ const styles = StyleSheet.create({
   },
   listContent: {
     paddingHorizontal: SPACING.xl,
+    paddingTop: SPACING.lg,
     paddingBottom: 110,
   },
   cardPressable: {
