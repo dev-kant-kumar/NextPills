@@ -25,7 +25,6 @@ const AppStateWatcher = () => {
       RNStatusBar.setTranslucent(true);
       RNStatusBar.setBackgroundColor("transparent", true);
       RNStatusBar.setBarStyle("light-content", true);
-      NavigationBar.setBackgroundColorAsync(COLORS.surfaceBase).catch(() => {});
       NavigationBar.setButtonStyleAsync("dark").catch(() => {});
     }
   }, []);
@@ -41,7 +40,6 @@ const AppStateWatcher = () => {
         RNStatusBar.setTranslucent(true);
         RNStatusBar.setBackgroundColor("transparent", true);
         RNStatusBar.setBarStyle("light-content", true);
-        NavigationBar.setBackgroundColorAsync(COLORS.surfaceBase).catch(() => {});
         NavigationBar.setButtonStyleAsync("dark").catch(() => {});
       }
     }
