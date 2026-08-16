@@ -1,3 +1,18 @@
+<img width="1080" height="2340" alt="Screenshot_2026-08-15-17-52-48-497_com miui global packageinstaller" src="https://github.com/user-attachments/assets/39d0399f-b9ef-48ac-bb13-6a2f17c8dba2" />
+<img width="1080" height="2340" alt="Screenshot_2026-08-15-17-52-31-864_com google android packageinstaller" src="https://github.com/user-attachments/assets/91032e21-9a5f-4d6e-a261-d6c8c5ce4a44" />
+<img width="1080" height="2340" alt="Screenshot_2026-08-15-17-52-25-571_com android vending" src="https://github.com/user-attachments/assets/08bec248-7f3c-4a4b-a443-0eaebdd17395" />
+<img width="1080" height="2340" alt="Screenshot_2026-08-15-17-51-19-999_com google android packageinstaller" src="https://github.com/user-attachments/assets/5fba0ebd-4e31-4f59-9d97-6fb4062947e9" />
+<img width="1080" height="2340" alt="Screenshot_2026-08-15-18-01-44-626_com google android apps docs" src="https://github.com/user-attachments/assets/2e6e3143-7d19-40c0-a283-9704941645b0" />
+<img width="1080" height="2340" alt="Screenshot_2026-08-15-18-01-24-337_com whatsapp w4b" src="https://github.com/user-attachments/assets/d671b584-0529-4519-93e2-83d38736d4ee" />
+<img width="1080" height="2340" alt="Screenshot_2026-08-15-18-00-20-125_com microsoft launcher" src="https://github.com/user-attachments/assets/fff8e469-cac1-468f-a0d6-55d43b15a3be" />
+<img width="1080" height="2340" alt="Screenshot_2026-08-15-18-00-00-504_android" src="https://github.com/user-attachments/assets/c514ee2d-1591-42ce-b93a-5b4214d6a15b" />
+<img width="1080" height="2340" alt="Screenshot_2026-08-15-17-59-11-823_com nextpills app" src="https://github.com/user-attachments/assets/d7f78bd8-7262-4dab-abf4-821b645afbba" />
+<img width="1080" height="2340" alt="Screenshot_2026-08-15-17-58-55-877_com nextpills app" src="https://github.com/user-attachments/assets/a5d50ec2-1fc6-4339-beb8-3ea2e73bbf62" />
+<img width="1080" height="2340" alt="Screenshot_2026-08-15-17-58-47-272_com nextpills app" src="https://github.com/user-attachments/assets/9d6b3e24-1a89-4276-9bad-e3146ce9555e" />
+<img width="1080" height="2340" alt="Screenshot_2026-08-15-17-58-42-353_com nextpills app" src="https://github.com/user-attachments/assets/dc0b4070-5c03-4fd6-b56f-65716d57094f" />
+<img width="1080" height="2340" alt="Screenshot_2026-08-15-17-54-32-743_com nextpills app" src="https://github.com/user-attachments/assets/66e9915f-25e4-4cce-b256-4e5b332247aa" />
+<img width="1080" height="2340" alt="Screenshot_2026-08-15-17-54-05-498_com nextpills app" src="https://github.com/user-attachments/assets/636d04a9-a478-49a9-bf84-5be8333c39fd" />
+
 <div align="center">
 
 # 💊 NextPills
